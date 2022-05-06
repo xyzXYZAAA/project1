@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const getById = (id) => {
+        let ids = [];
+        let prev;
+        return function () {
+          if (prev) {
+            // 防抖
+            clearTimeout(prev);
+            if (Array.isArray(id)) {
+              ids.push(...id);
+            } else {
+              ids.push(id);
+            }
+          }
+          let result;
+          prev = setTimeout(async () => {
+            let data = {};
+            // 数据格式
+            if (ids.length >= 2) {
+              data.ids = ids;
+            } else {
+              data.id = id;
+            }
+            result = await axios.get("url", data); // 请求
+          }, 10);
+          return result;
+        };
+      };
+    </script>
+  </body>
+</html>
